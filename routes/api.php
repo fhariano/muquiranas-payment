@@ -18,3 +18,8 @@ Route::get('/getnet-cards/{card_id}', [GetnetController::class, 'getCardByCardId
 Route::get('/getnet-cards/remove/{card_id}', [GetnetController::class, 'removeCardByCardId']);
 Route::get('/getnet-list-brands', [GetnetController::class, 'getBrands']);
 Route::post('/getnet-process-payment', [GetnetController::class, 'processPayment']);
+
+Route::get('/', function () use ($router) {
+    // return $router->app->version();
+    return response()->json(['message' => 'API Payment - Success']);
+});
