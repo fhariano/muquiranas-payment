@@ -188,8 +188,8 @@ class GetnetController extends Controller
 
         // Gera token do cartão - Obrigatório
         $tokenCard = new Token(
-            "5155901222280001", // $request->card_number
-            "customer_210818263", // $request->client_id
+            $request->card_number,
+            $request->client_id,
             $getnet
         );
 
