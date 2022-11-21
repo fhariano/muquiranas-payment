@@ -181,9 +181,9 @@ class GetnetController extends Controller
     {
         Log::channel('getnet')->error("request: " . print_r($request->all(), true));
 
-        $this->environment = Environment::production();
+        $environment = Environment::production();
         if (config('payment.getnet.environment') != "production") {
-            $this->environment = Environment::homolog();
+            $environment = Environment::homolog();
         }
 
         $client_id = config('payment.getnet.client_id');
@@ -191,7 +191,7 @@ class GetnetController extends Controller
         $seller_id = config('payment.getnet.seller_id');
 
         //Autenticação da API
-        $getnet = new Getnet($this->client_id, $this->client_secret, $this->environment);
+        $getnet = new Getnet($client_id, $client_secret, $environment);
 
         // Inicia uma transação
         $transaction = new Transaction();
