@@ -181,45 +181,7 @@ class GetnetController extends Controller
     {
         Log::channel('getnet')->error("request: " . print_r($request->all(), true));
 
-        $environment = Environment::production();
-        if (config('payment.getnet.environment') != "production") {
-            $environment = Environment::homolog();
-        }
-
-        $client_id = config('payment.getnet.client_id');
-        $client_secret = config('payment.getnet.client_secret');
-        $seller_id = config('payment.getnet.seller_id');
-
-        //Autenticação da API
-        $getnet = new Getnet($client_id, $client_secret, $environment);
-
-        // Inicia uma transação
-        $transaction = new Transaction();
-        $transaction->setSellerId($seller_id);
-
-        // Gera token do cartão - Obrigatório
-        $tokenCard = new Token(
-            $request->cardNumber,
-            $request->clientId,
-            $getnet
-        );
-
-        $card = new Card($tokenCard);
-        $card->setBrand($request->brand)
-            ->setExpirationMonth($request->expirationMonth)
-            ->setExpirationYear($request->expirationYear)
-            ->setCardholderName($request->cardHolderName)
-            ->setSecurityCode($request->securityCode);
-
-        // set card info
-        $cofre = new Cofre();
-        $cofre->setCardInfo($card)
-            ->setIdentification($request->cpf)
-            ->setCustomerId($request->clientId);
-
-        // Processa a Transação
-        $transaction->cofre($cofre);
-        $response = $getnet->cofre($transaction);
+        $response = $this->genetService->saveCard($request->all());
 
         return $response->getResponseJSON();
     }

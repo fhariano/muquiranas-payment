@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Getnet\API\Card;
+use Getnet\API\Cofre;
 use Getnet\API\Credit;
 use Getnet\API\Customer;
 use Getnet\API\Environment;
@@ -165,6 +166,31 @@ class GetnetService
                 "status_code" => 200, "response" => $response
             ];
         }
+
+        return $response;
+    }
+
+    public function saveCard(array $params = [])
+    {
+
+        $this->params = $params;
+
+        $card = new Card($this->tokenCard);
+        $card->setBrand($params["brand"])
+            ->setExpirationMonth($params["expirationMonth"])
+            ->setExpirationYear($params["expirationYear"])
+            ->setCardholderName($params["cardHolderName"])
+            ->setSecurityCode($params["securityCode"]);
+
+        // set card info
+        $cofre = new Cofre();
+        $cofre->setCardInfo($card)
+            ->setIdentification($params["cpf"])
+            ->setCustomerId($params["clientId"]);
+
+        // Processa a Transação
+        $this->transaction->cofre($cofre);
+        $response = $this->getnet->cofre($this->transaction);
 
         return $response;
     }
