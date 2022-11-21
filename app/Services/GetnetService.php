@@ -175,6 +175,13 @@ class GetnetService
 
         $this->params = $params;
 
+        // Gera token do cartão - Obrigatório
+        $this->tokenCard = new Token(
+            $params["cardNumber"],
+            $params["clientId"],
+            $this->getnet
+        );
+
         $card = new Card($this->tokenCard);
         $card->setBrand($this->params["brand"])
             ->setExpirationMonth($this->params["expirationMonth"])
