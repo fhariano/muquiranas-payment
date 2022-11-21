@@ -191,18 +191,15 @@ class GetnetController extends Controller
 
         // Gera token do cartão - Obrigatório
         $tokenCard = new Token(
-            $request->card_number,
-            $request->client_id,
+            $request->cardNumber,
+            $request->clientId,
             $getnet
         );
 
-        $expirationMonth = substr($request->expiration, 0, 2);
-        $expirationYear = substr($request->expiration, 3, 2);
-
         $card = new Card($tokenCard);
         $card->setBrand($request->brand)
-            ->setExpirationMonth($expirationMonth)
-            ->setExpirationYear($expirationYear)
+            ->setExpirationMonth($request->expirationMonth)
+            ->setExpirationYear($request->expirationYear)
             ->setCardholderName($request->cardHolderName)
             ->setSecurityCode($request->securityCode);
 
@@ -210,7 +207,7 @@ class GetnetController extends Controller
         $cofre = new Cofre();
         $cofre->setCardInfo($card)
             ->setIdentification($request->cpf)
-            ->setCustomerId($request->identify);
+            ->setCustomerId($request->clientId);
 
         // Processa a Transação
         $transaction->cofre($cofre);
