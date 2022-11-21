@@ -195,6 +195,7 @@ class GetnetController extends Controller
 
         // Inicia uma transação
         $transaction = new Transaction();
+        $transaction->setSellerId($this->seller_id);
 
         // Gera token do cartão - Obrigatório
         $tokenCard = new Token(
