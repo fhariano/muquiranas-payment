@@ -7,12 +7,7 @@ use App\Models\Payment;
 use App\Services\GetnetService;
 use DateTime;
 use DateTimeZone;
-use Getnet\API\Card;
-use Getnet\API\Cofre;
-use Getnet\API\Environment;
 use Getnet\API\Getnet;
-use Getnet\API\Token;
-use Getnet\API\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -61,11 +56,11 @@ class GetnetController extends Controller
 
     public function __construct()
     {
+        $this->genetService = new GetnetService;
     }
 
     public function processPayment(Request $request)
     {
-        $this->genetService = new GetnetService;
         $validator = $this->validateRequest($request);
 
         if ($validator->errors()->count() > 0) {
