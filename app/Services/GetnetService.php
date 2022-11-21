@@ -198,6 +198,14 @@ class GetnetService
         // Processa a Transação
         $this->transaction->cofre($cofre);
         $response = $this->getnet->cofre($this->transaction);
+        $status = $response->getStatus();
+        $response = $response->getResponseJSON();
+
+        Log::channel('getnet')->info("status code: " . $status);
+
+        $response = [
+            "status_code" => 200, "response" => $response
+        ];
 
         return $response;
     }
