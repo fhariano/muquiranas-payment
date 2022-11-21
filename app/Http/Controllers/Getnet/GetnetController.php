@@ -9,6 +9,7 @@ use DateTime;
 use DateTimeZone;
 use Getnet\API\Card;
 use Getnet\API\Cofre;
+use Getnet\API\Environment;
 use Getnet\API\Getnet;
 use Getnet\API\Token;
 use Getnet\API\Transaction;
@@ -180,14 +181,20 @@ class GetnetController extends Controller
     {
         Log::channel('getnet')->error("request: " . print_r($request->all(), true));
 
+        $this->environment = Environment::production();
+        if (config('payment.getnet.environment') != "production") {
+            $this->environment = Environment::homolog();
+        }
+
+        $client_id = config('payment.getnet.client_id');
+        $client_secret = config('payment.getnet.client_secret');
+        $seller_id = config('payment.getnet.seller_id');
+
         //Autenticação da API
         $getnet = new Getnet($this->client_id, $this->client_secret, $this->environment);
 
         // Inicia uma transação
         $transaction = new Transaction();
-
-        // Dados do pedido - Transação
-        $transaction->setSellerId($this->seller_id);
 
         // Gera token do cartão - Obrigatório
         $tokenCard = new Token(
