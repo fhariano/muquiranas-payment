@@ -13,6 +13,7 @@ use Getnet\API\Getnet;
 use Getnet\API\Token;
 use Getnet\API\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
@@ -177,6 +178,8 @@ class GetnetController extends Controller
 
     public function saveCard(Request $request)
     {
+        Log::channel('getnet')->error("request: " . print_r($request->all(), true));
+
         //Autenticação da API
         $getnet = new Getnet($this->client_id, $this->client_secret, $this->environment);
 
@@ -193,18 +196,21 @@ class GetnetController extends Controller
             $getnet
         );
 
+        $expirationMonth = substr($request->expiration, 0, 2);
+        $expirationYear = substr($request->expiration, 3, 2);
+
         $card = new Card($tokenCard);
-        $card->setBrand(Card::BRAND_MASTERCARD)
-            ->setExpirationMonth("12")
-            ->setExpirationYear("20")
-            ->setCardholderName("Jax Teller")
-            ->setSecurityCode("123");
+        $card->setBrand($request->brand)
+            ->setExpirationMonth($expirationMonth)
+            ->setExpirationYear($expirationYear)
+            ->setCardholderName($request->cardHolderName)
+            ->setSecurityCode($request->securityCode);
 
         // set card info
         $cofre = new Cofre();
         $cofre->setCardInfo($card)
-            ->setIdentification("12345678912")
-            ->setCustomerId("cpf_52935663187");
+            ->setIdentification($request->cpf)
+            ->setCustomerId($request->identify);
 
         // Processa a Transação
         $transaction->cofre($cofre);
