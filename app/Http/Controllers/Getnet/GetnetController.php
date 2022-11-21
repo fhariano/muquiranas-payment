@@ -183,7 +183,7 @@ class GetnetController extends Controller
 
         $response = $this->genetService->saveCard($request->all());
 
-        return $response->getResponseJSON();
+        return $response;
     }
 
     public function listCardsByCustomerId(Request $request)
