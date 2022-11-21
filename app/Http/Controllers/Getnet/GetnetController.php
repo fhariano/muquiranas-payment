@@ -179,7 +179,7 @@ class GetnetController extends Controller
 
     public function saveCard(Request $request)
     {
-        Log::channel('getnet')->error("request: " . print_r($request->all(), true));
+        Log::channel('getnet')->info("request: " . print_r($request->all(), true));
 
         $response = $this->genetService->saveCard($request->all());
 

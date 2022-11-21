@@ -176,17 +176,17 @@ class GetnetService
         $this->params = $params;
 
         $card = new Card($this->tokenCard);
-        $card->setBrand($params["brand"])
-            ->setExpirationMonth($params["expirationMonth"])
-            ->setExpirationYear($params["expirationYear"])
-            ->setCardholderName($params["cardHolderName"])
-            ->setSecurityCode($params["securityCode"]);
+        $card->setBrand($this->params["brand"])
+            ->setExpirationMonth($this->params["expirationMonth"])
+            ->setExpirationYear($this->params["expirationYear"])
+            ->setCardholderName($this->params["cardHolderName"])
+            ->setSecurityCode($this->params["securityCode"]);
 
         // set card info
         $cofre = new Cofre();
         $cofre->setCardInfo($card)
-            ->setIdentification($params["cpf"])
-            ->setCustomerId($params["clientId"]);
+            ->setIdentification($this->params["cpf"])
+            ->setCustomerId($this->params["clientId"]);
 
         // Processa a Transação
         $this->transaction->cofre($cofre);
