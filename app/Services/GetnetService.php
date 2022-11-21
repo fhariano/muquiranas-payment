@@ -192,7 +192,7 @@ class GetnetService
         // set card info
         $cofre = new Cofre();
         $cofre->setCardInfo($card)
-            ->setIdentification($this->params["cpf"])
+            ->setIdentification($this->params["clientCpfCnpj"])
             ->setCustomerId($this->params["clientId"]);
 
         // Processa a Transação
