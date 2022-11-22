@@ -174,18 +174,19 @@ class GetnetController extends Controller
 
     public function saveCard(Request $request)
     {
-        Log::channel('getnet')->info("request: " . print_r($request->all(), true));
-
+        Log::channel('getnet')->info("saveCard request: " . print_r($request->all(), true));
+        
         $response = $this->genetService->saveCard($request->all());
-
+        
         return $response;
     }
-
+    
     public function listCardsByCustomerId(Request $request)
     {
+        Log::channel('getnet')->info("listCardsByCustomerId request: " . print_r($request->all(), true));
         //Autenticação da API
         $getnet = new Getnet($this->client_id, $this->client_secret, $this->environment);
-
+        
         // Processa a Transação
         $response = $getnet->getCofreByCustomerId($request->customer_id);
 
@@ -193,19 +194,16 @@ class GetnetController extends Controller
         return $response->getResponseJSON();
     }
 
-    public function getCardByCardId(Request $request)
+    public function getCardById(Request $request)
     {
-        //Autenticação da API
-        $getnet = new Getnet($this->client_id, $this->client_secret, $this->environment);
+        Log::channel('getnet')->info("getCardById request: " . print_r($request->all(), true));
 
-        // Processa a Transação
-        $response = $getnet->getCardByCardId($request->card_id);
-
-        // Resultado da transação - Consultar tabela abaixo
-        return $response->getResponseJSON();
+        $response = $this->genetService->getCardById($request->card_id);
+        
+        return $response;
     }
 
-    public function removeCardByCardId(Request $request)
+    public function removeCardById(Request $request)
     {
         //Autenticação da API
         $getnet = new Getnet($this->client_id, $this->client_secret, $this->environment);

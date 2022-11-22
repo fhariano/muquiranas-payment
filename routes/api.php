@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/getnet-list-brands', [GetnetController::class, 'getBrands']);
 Route::post('/getnet-card', [GetnetController::class, 'saveCard']);
-Route::get('/getnet-card/{card_id}', [GetnetController::class, 'getCardByCardId']);
-Route::delete('/getnet-card/{card_id}', [GetnetController::class, 'removeCardByCardId']);
+Route::get('/getnet-card/{card_id}', [GetnetController::class, 'getCardById']);
+Route::delete('/getnet-card/{card_id}', [GetnetController::class, 'removeCardById']);
 Route::get('/getnet-card/customer/{customer_id}', [GetnetController::class, 'listCardsByCustomerId']);
 Route::post('/getnet-process-payment', [GetnetController::class, 'processPayment']);
 Route::post('/getnet-process-payment', [GetnetController::class, 'processPayment']);
