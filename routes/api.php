@@ -17,7 +17,7 @@ Route::get('/getnet-list-brands', [GetnetController::class, 'getBrands']);
 Route::post('/getnet-card', [GetnetController::class, 'saveCard']);
 Route::get('/getnet-card/{card_id}', [GetnetController::class, 'getCardById']);
 Route::delete('/getnet-card/{card_id}', [GetnetController::class, 'removeCardById']);
-Route::get('/getnet-card/customer/{customer_id}', [GetnetController::class, 'listCardsByCustomerId']);
+Route::get('/getnet-card/customer/{customer_id}', [GetnetController::class, 'getCardByCustomerId']);
 Route::post('/getnet-process-payment', [GetnetController::class, 'processPayment']);
 Route::post('/getnet-process-payment', [GetnetController::class, 'processPayment']);
 

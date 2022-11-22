@@ -205,7 +205,7 @@ class GetnetService
         Log::channel('getnet')->info("saveCard status: " . $status);
         
         if($status == 'ERROR'){
-            Log::channel('getnet')->error("saveCard status: " . $response->status_code);
+            Log::channel('getnet')->error("saveCard response: " . print_r($response, true));
             return response()->json([
                 "error" => true,
                 "message" => "Erro ao salvar cartão na operadora",
@@ -229,7 +229,7 @@ class GetnetService
         
         Log::channel('getnet')->info("getCardById status: " . $status);
         if($status == 'ERROR'){
-            Log::channel('getnet')->error("getCardById status: " . $response->status_code);
+            Log::channel('getnet')->error("getCardById response: " . print_r($response, true));
             return response()->json([
                 "error" => true,
                 "message" => "Erro ao recuperar o cartão na operadora",
@@ -240,6 +240,31 @@ class GetnetService
         return response()->json([
             "error" => false,
             "message" => "Cartão encontrado com sucesso",
+            "data" => $response,
+        ], 200);
+    }
+
+    public function getCardByCustomerId(string $customer_id = "") {
+        // Processa a Transação
+        $response = $this->getnet->getCofreByCustomerId($customer_id);
+        
+        $status = $response->getStatus();
+        $response = $response->getResponseJSON();
+        $response = json_decode($response);
+        
+        Log::channel('getnet')->info("getCardByCustomerId status: " . $status);
+        if($status == 'ERROR'){
+            Log::channel('getnet')->error("getCardByCustomerId response: " . print_r($response, true));
+            return response()->json([
+                "error" => true,
+                "message" => "Erro ao recuperar a lista de cartões na operadora",
+                "data" => [],
+            ], $response->status_code);            
+        }
+
+        return response()->json([
+            "error" => false,
+            "message" => "Lista de cartões encontrada com sucesso",
             "data" => $response,
         ], 200);
     }
