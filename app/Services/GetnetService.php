@@ -204,10 +204,10 @@ class GetnetService
 
         Log::channel('getnet')->info("status code: " . $status);
 
-        $response = [
-            "status_code" => 200, "response" => $response
-        ];
-
-        return $response;
+        return response()->json([
+            "error" => false,
+            "message" => "Cartão salvo com sucesso",
+            "data" => $response,
+        ], 200);
     }
 }
