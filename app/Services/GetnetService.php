@@ -288,7 +288,7 @@ class GetnetService
                 "error" => true,
                 "message" => "Erro ao remover o cartão na operadora",
                 "data" => [],
-            ], $response->status_code);
+            ], 404);
         }
 
         return response()->json([
