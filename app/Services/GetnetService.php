@@ -200,6 +200,7 @@ class GetnetService
         $response = $this->getnet->cofre($this->transaction);
         $status = $response->getStatus();
         $response = $response->getResponseJSON();
+        $response = json_decode($response);
 
         Log::channel('getnet')->info("status code: " . $status);
 
