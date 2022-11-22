@@ -172,29 +172,29 @@ class GetnetService
 
     public function saveCard(array $params = [])
     {
-        
+
         $this->params = $params;
-        
+
         // Gera token do cartão - Obrigatório
         $this->tokenCard = new Token(
             $params["cardNumber"],
             $params["clientId"],
             $this->getnet
         );
-        
+
         $card = new Card($this->tokenCard);
         $card->setBrand($this->params["brand"])
-        ->setExpirationMonth($this->params["expirationMonth"])
-        ->setExpirationYear($this->params["expirationYear"])
-        ->setCardholderName($this->params["cardHolderName"])
-        ->setSecurityCode($this->params["securityCode"]);
-        
+            ->setExpirationMonth($this->params["expirationMonth"])
+            ->setExpirationYear($this->params["expirationYear"])
+            ->setCardholderName($this->params["cardHolderName"])
+            ->setSecurityCode($this->params["securityCode"]);
+
         // set card info
         $cofre = new Cofre();
         $cofre->setCardInfo($card)
-        ->setIdentification($this->params["clientCpfCnpj"])
-        ->setCustomerId($this->params["clientId"]);
-        
+            ->setIdentification($this->params["clientCpfCnpj"])
+            ->setCustomerId($this->params["clientId"]);
+
         // Processa a Transação
         $this->transaction->cofre($cofre);
         $response = $this->getnet->cofre($this->transaction);
@@ -203,38 +203,39 @@ class GetnetService
         $response = json_decode($response);
 
         Log::channel('getnet')->info("saveCard status: " . $status);
-        
-        if($status == 'ERROR'){
+
+        if ($status == 'ERROR') {
             Log::channel('getnet')->error("saveCard response: " . print_r($response, true));
             return response()->json([
                 "error" => true,
                 "message" => "Erro ao salvar cartão na operadora",
                 "data" => [],
-            ], $response->status_code);            
+            ], $response->status_code);
         }
-        
+
         return response()->json([
             "error" => false,
             "message" => "Cartão salvo com sucesso",
             "data" => $response,
         ], 200);
     }
-    public function getCardById(string $card_id = "") {
+    public function getCardById(string $card_id = "")
+    {
         // Processa a Transação
         $response = $this->getnet->getCardByCardId($card_id);
-        
+
         $status = $response->getStatus();
         $response = $response->getResponseJSON();
         $response = json_decode($response);
-        
+
         Log::channel('getnet')->info("getCardById status: " . $status);
-        if($status == 'ERROR'){
+        if ($status == 'ERROR') {
             Log::channel('getnet')->error("getCardById response: " . print_r($response, true));
             return response()->json([
                 "error" => true,
                 "message" => "Erro ao recuperar o cartão na operadora",
                 "data" => [],
-            ], $response->status_code);            
+            ], $response->status_code);
         }
 
         return response()->json([
@@ -244,23 +245,24 @@ class GetnetService
         ], 200);
     }
 
-    public function getCardByCustomerId(string $customer_id = "") {
+    public function getCardByCustomerId(string $customer_id = "")
+    {
         // Processa a Transação
         $response = $this->getnet->getCofreByCustomerId($customer_id);
-        
+
         $status = $response->getStatus();
         $response = $response->getResponseJSON();
         $response = json_decode($response);
-        
+
         Log::channel('getnet')->info("getCardByCustomerId status: " . $status);
         Log::channel('getnet')->info("getCardByCustomerId response: " . print_r($response, true));
-        if($status == 'ERROR' || $response->status_code > 299 ){
+        if ($status == 'ERROR' || isset($response->status_code)) {
             Log::channel('getnet')->error("getCardByCustomerId response: " . print_r($response, true));
             return response()->json([
                 "error" => true,
                 "message" => "Erro ao recuperar a lista de cartões na operadora",
                 "data" => [],
-            ], $response->status_code);            
+            ], $response->status_code);
         }
 
         return response()->json([
