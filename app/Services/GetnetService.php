@@ -202,7 +202,16 @@ class GetnetService
         $response = $response->getResponseJSON();
         $response = json_decode($response);
 
-        Log::channel('getnet')->info("status code: " . $status);
+        Log::channel('getnet')->info("status: " . $status);
+        
+        if($status == 'ERROR'){
+            Log::channel('getnet')->error("status: " . $response->status_code);
+            return response()->json([
+                "error" => true,
+                "message" => "Erro ao salvar cartão na operadora",
+                "data" => $response,
+            ], $response->status_code);            
+        }
 
         return response()->json([
             "error" => false,
