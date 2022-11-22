@@ -254,7 +254,7 @@ class GetnetService
         
         Log::channel('getnet')->info("getCardByCustomerId status: " . $status);
         Log::channel('getnet')->info("getCardByCustomerId response: " . print_r($response, true));
-        if($status == 'ERROR'){
+        if($status == 'ERROR' || $response->status_code > 299 ){
             Log::channel('getnet')->error("getCardByCustomerId response: " . print_r($response, true));
             return response()->json([
                 "error" => true,
