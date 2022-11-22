@@ -282,7 +282,7 @@ class GetnetService
         $response = json_decode($response);
 
         Log::channel('getnet')->info("removeCardById status: " . $status);
-        if ($status == 'ERROR') {
+        if ($status == 'ERROR' || $status == 'DENIED') {
             Log::channel('getnet')->error("removeCardById response: " . print_r($response, true));
             return response()->json([
                 "error" => true,
