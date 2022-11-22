@@ -253,6 +253,7 @@ class GetnetService
         $response = json_decode($response);
         
         Log::channel('getnet')->info("getCardByCustomerId status: " . $status);
+        Log::channel('getnet')->info("getCardByCustomerId response: " . print_r($response, true));
         if($status == 'ERROR'){
             Log::channel('getnet')->error("getCardByCustomerId response: " . print_r($response, true));
             return response()->json([
