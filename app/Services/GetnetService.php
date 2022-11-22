@@ -271,4 +271,30 @@ class GetnetService
             "data" => $response,
         ], 200);
     }
+
+    public function removeCardById(string $card_id = "")
+    {
+        // Processa a Transação
+        $response = $this->getnet->removeCardByCardId($card_id);
+
+        $status = $response->getStatus();
+        $response = $response->getResponseJSON();
+        $response = json_decode($response);
+
+        Log::channel('getnet')->info("removeCardById status: " . $status);
+        if ($status == 'ERROR') {
+            Log::channel('getnet')->error("removeCardById response: " . print_r($response, true));
+            return response()->json([
+                "error" => true,
+                "message" => "Erro ao remover o cartão na operadora",
+                "data" => [],
+            ], $response->status_code);
+        }
+
+        return response()->json([
+            "error" => false,
+            "message" => "Cartão removido com sucesso",
+            "data" => $response,
+        ], 200);
+    }
 }

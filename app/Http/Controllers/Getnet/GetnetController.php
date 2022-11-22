@@ -201,14 +201,11 @@ class GetnetController extends Controller
 
     public function removeCardById(Request $request)
     {
-        //Autenticação da API
-        $getnet = new Getnet($this->client_id, $this->client_secret, $this->environment);
+        Log::channel('getnet')->info("removeCardById request: " . print_r($request->all(), true));
 
-        // Processa a Transação
-        $response = $getnet->removeCardByCardId($request->card_id);
-
-        // Resultado da transação - Consultar tabela abaixo
-        return $response->getResponseJSON();
+        $response = $this->genetService->removeCardById($request->card_id);
+        
+        return $response;
     }
 
     public function validateRequest(Request $request)
