@@ -52,7 +52,7 @@ class GetnetController extends Controller
     {
         $this->genetService = new GetnetService;
         $this->brands = [
-            "Mastercard" => url("/imgs/matercard.png"),
+            "Mastercard" => url("/imgs/mastercard.png"),
             "Visa" => url("/imgs/visa.png"),
             "Amex" => url("/imgs/amex.png"),
             "Elo" => url("/imgs/elo.png"),
