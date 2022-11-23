@@ -46,17 +46,18 @@ class GetnetController extends Controller
      */
 
     protected $genetService;
-    protected $brands = [
-        "Mastercard" => url("/imgs/matercard.png"),
-        "Visa" => url("/imgs/visa.png"),
-        "Amex" => url("/imgs/amex.png"),
-        "Elo" => url("/imgs/elo.png"),
-        "Hipercard" => url("/imgs/hipercard.png"),
-    ];
+    protected $brands;
 
     public function __construct()
     {
         $this->genetService = new GetnetService;
+        $this->brands = [
+            "Mastercard" => url("/imgs/matercard.png"),
+            "Visa" => url("/imgs/visa.png"),
+            "Amex" => url("/imgs/amex.png"),
+            "Elo" => url("/imgs/elo.png"),
+            "Hipercard" => url("/imgs/hipercard.png"),
+        ];
     }
 
     public function processPayment(Request $request)
