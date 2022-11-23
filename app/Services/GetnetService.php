@@ -154,7 +154,7 @@ class GetnetService
         $response = json_decode($response);
         if ($status  != "APPROVED") {
             Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientId: {$params["clientId"]} - orderId: {$params["orderId"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
-            Log::channel('getnet')->error("response: " . print_r($response->details, true));
+            Log::channel('getnet')->error("response: " . print_r($response, true));
 
             $response = [
                 "status_code" => $response->status_code, "response" => $response
