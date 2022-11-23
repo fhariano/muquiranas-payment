@@ -47,11 +47,11 @@ class GetnetController extends Controller
 
     protected $genetService;
     protected $brands = [
-        "Mastercard" => config('app.url') . "/imgs/matercard.png",
-        "Visa" => config('app.url') . "/imgs/visa.png",
-        "Amex" => config('app.url') . "/imgs/amex.png",
-        "Elo" => config('app.url') . "/imgs/elo.png",
-        "Hipercard" => config('app.url') . "/imgs/hipercard.png",
+        "Mastercard" => url("/imgs/matercard.png"),
+        "Visa" => url("/imgs/visa.png"),
+        "Amex" => url("/imgs/amex.png"),
+        "Elo" => url("/imgs/elo.png"),
+        "Hipercard" => url("/imgs/hipercard.png"),
     ];
 
     public function __construct()
