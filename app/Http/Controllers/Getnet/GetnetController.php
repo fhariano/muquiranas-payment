@@ -47,11 +47,11 @@ class GetnetController extends Controller
 
     protected $genetService;
     protected $brands = [
-        1 => "Mastercard",
-        2 => "Visa",
-        3 => "Amex",
-        4 => "Elo",
-        5 => "Hipercard",
+        "Mastercard" => config('app.APP_URL') . "/imgs/matercard.png",
+        "Visa" => config('app.APP_URL') . "/imgs/visa.png",
+        "Amex" => config('app.APP_URL') . "/imgs/amex.png",
+        "Elo" => config('app.APP_URL') . "/imgs/elo.png",
+        "Hipercard" => config('app.APP_URL') . "/imgs/hipercard.png",
     ];
 
     public function __construct()
@@ -175,9 +175,9 @@ class GetnetController extends Controller
     public function saveCard(Request $request)
     {
         Log::channel('getnet')->info("saveCard request: " . print_r($request->all(), true));
-        
+
         $response = $this->genetService->saveCard($request->all());
-        
+
         return $response;
     }
 
@@ -186,7 +186,7 @@ class GetnetController extends Controller
         Log::channel('getnet')->info("getCardById request: " . print_r($request->all(), true));
 
         $response = $this->genetService->getCardById($request->card_id);
-        
+
         return $response;
     }
 
@@ -195,7 +195,7 @@ class GetnetController extends Controller
         Log::channel('getnet')->info("getCardByCustomerId request: " . print_r($request->all(), true));
 
         $response = $this->genetService->getCardByCustomerId($request->customer_id);
-        
+
         return $response;
     }
 
@@ -204,7 +204,7 @@ class GetnetController extends Controller
         Log::channel('getnet')->info("removeCardById request: " . print_r($request->all(), true));
 
         $response = $this->genetService->removeCardById($request->card_id);
-        
+
         return $response;
     }
 
