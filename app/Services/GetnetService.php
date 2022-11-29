@@ -71,6 +71,10 @@ class GetnetService
             $this->getnet
         );
 
+        $cardHolderName = $this->cleanString( $this->params["cardHolderName"]);
+        $firstName = $this->cleanString( $this->params["clientFirstName"]);
+        $lastName = $this->cleanString( $this->params["clientLastName"]);
+
         if ($params['type'] == 'credit') {
             $this->transaction->credit()
                 ->setDelayed(false)
@@ -85,7 +89,7 @@ class GetnetService
                 ->setBrand($this->params["brand"])
                 ->setExpirationMonth($this->params["expirationMonth"])
                 ->setExpirationYear($this->params["expirationYear"])
-                ->setCardholderName($this->params["cardHolderName"])
+                ->setCardholderName($cardHolderName)
                 ->setSecurityCode($this->params["securityCode"]);
         } else {
             $this->transaction->debit()
@@ -96,7 +100,7 @@ class GetnetService
                 ->setBrand($this->params["brand"])
                 ->setExpirationMonth($this->params["expirationMonth"])
                 ->setExpirationYear($this->params["expirationYear"])
-                ->setCardholderName($this->params["cardHolderName"])
+                ->setCardholderName($cardHolderName)
                 ->setSecurityCode($this->params["securityCode"]);
         }
 
@@ -104,9 +108,9 @@ class GetnetService
         $this->transaction->customer($params["clientId"])
             ->setDocumentType(Customer::DOCUMENT_TYPE_CPF)
             ->setEmail($params["clientEmail"])
-            ->setFirstName($params["clientFirstName"])
-            ->setLastName($params["clientLastName"])
-            ->setName($params["clientFirstName"] . " " . $params["clientLastName"])
+            ->setFirstName($firstName)
+            ->setLastName($lastName)
+            ->setName($cardHolderName)
             ->setPhoneNumber($params["clientPhone"])
             ->setDocumentNumber($params["clientCpfCnpj"])
             ->billingAddress()
@@ -178,22 +182,24 @@ class GetnetService
         // Gera token do cartão - Obrigatório
         $this->tokenCard = new Token(
             $params["cardNumber"],
-            $params["clientId"],
+            $this->params["cardType"].'_'.$this->params["clientId"],
             $this->getnet
         );
+
+        $cardHolderName = $this->cleanString( $this->params["cardHolderName"]);
 
         $card = new Card($this->tokenCard);
         $card->setBrand($this->params["brand"])
             ->setExpirationMonth($this->params["expirationMonth"])
             ->setExpirationYear($this->params["expirationYear"])
-            ->setCardholderName($this->params["cardHolderName"])
+            ->setCardholderName($cardHolderName)
             ->setSecurityCode($this->params["securityCode"]);
 
         // set card info
         $cofre = new Cofre();
         $cofre->setCardInfo($card)
             ->setIdentification($this->params["clientCpfCnpj"])
-            ->setCustomerId($this->params["clientId"]);
+            ->setCustomerId($this->params["cardType"].'_'.$this->params["clientId"]);
 
         // Processa a Transação
         $this->transaction->cofre($cofre);
@@ -212,7 +218,8 @@ class GetnetService
                 "data" => [],
             ], $response->status_code);
         }
-
+        
+        $response['cardType'] = $this->params["cardType"];
         return response()->json([
             "error" => false,
             "message" => "Cartão salvo com sucesso",
@@ -237,6 +244,9 @@ class GetnetService
                 "data" => [],
             ], $response->status_code);
         }
+
+        $cardType = explode('_', $response['customer_id']);
+        $response['cardType'] = $cardType[0];
 
         return response()->json([
             "error" => false,
@@ -297,4 +307,30 @@ class GetnetService
             "data" => $response,
         ], 200);
     }
+
+    static function cleanString($text)
+	{
+
+		$utf8 = array(
+				'/[áàâãªä]/u'   =>   'a',
+				'/[ÁÀÂÃÄ]/u'    =>   'A',
+				'/[ÍÌÎÏ]/u'     =>   'I',
+				'/[íìîï]/u'     =>   'i',
+				'/[éèêë]/u'     =>   'e',
+				'/[ÉÈÊË]/u'     =>   'E',
+				'/[óòôõºö]/u'   =>   'o',
+				'/[ÓÒÔÕÖ]/u'    =>   'O',
+				'/[úùûü]/u'     =>   'u',
+				'/[ÚÙÛÜ]/u'     =>   'U',
+				'/ç/'           =>   'c',
+				'/Ç/'           =>   'C',
+				'/ñ/'           =>   'n',
+				'/Ñ/'           =>   'N',
+				'/–/'           =>   '-', // UTF-8 hyphen to "normal" hyphen
+				'/[’‘‹›‚]/u'    =>   ' ', // Literally a single quote
+				'/[“”«»„]/u'    =>   ' ', // Double quote
+				'/ /'           =>   ' ', // nonbreaking space (equiv. to 0x160)
+		);
+		return preg_replace(array_keys($utf8), array_values($utf8), $text);
+	}
 }
