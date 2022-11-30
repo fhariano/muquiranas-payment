@@ -184,7 +184,7 @@ class GetnetService
         // Gera token do cartão - Obrigatório
         $this->tokenCard = new Token(
             $params["cardNumber"],
-            $this->params["cardType"].'_'.$this->params["clientId"],
+            $this->params["clientId"],
             $this->getnet
         );
 
@@ -201,7 +201,7 @@ class GetnetService
         $cofre = new Cofre();
         $cofre->setCardInfo($card)
             ->setIdentification($this->params["clientCpfCnpj"])
-            ->setCustomerId($this->params["cardType"].'_'.$this->params["clientId"]);
+            ->setCustomerId($this->params["clientId"]);
 
         // Processa a Transação
         $this->transaction->cofre($cofre);
@@ -209,9 +209,6 @@ class GetnetService
         $status = $response->getStatus();
         $response = $response->getResponseJSON();
         $response = json_decode($response);
-        $cvvEncrypted = encrypt($this->params["securityCode"]);
-        Log::channel('getnet')->info("status CVV: " . $cvvEncrypted);
-        Log::channel('getnet')->info("status CVV: " . decrypt($cvvEncrypted));
 
         if ($status == 'ERROR') {
             Log::channel('getnet')->error("saveCard response: " . print_r($response, true));
