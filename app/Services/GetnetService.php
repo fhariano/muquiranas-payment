@@ -71,9 +71,9 @@ class GetnetService
             $this->getnet
         );
 
-        $cardHolderName = $this->cleanString( $this->params["cardHolderName"]);
-        $firstName = $this->cleanString( $this->params["clientFirstName"]);
-        $lastName = $this->cleanString( $this->params["clientLastName"]);
+        $cardHolderName = mb_strtoupper($this->cleanString( $this->params["cardHolderName"]));
+        $firstName = mb_strtoupper($this->cleanString( $this->params["clientFirstName"]));
+        $lastName = mb_strtoupper($this->cleanString( $this->params["clientLastName"]));
 
         if ($params['type'] == 'credit') {
             $this->transaction->credit()
@@ -154,12 +154,12 @@ class GetnetService
         $response = $response->getResponseJSON();
 
         Log::channel('getnet')->info("status code: " . $status);
-
+        
         $response = json_decode($response);
         if ($status  != "APPROVED") {
             Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientId: {$params["clientId"]} - orderId: {$params["orderId"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
             Log::channel('getnet')->error("response: " . print_r($response, true));
-
+            
             $response = [
                 "status_code" => $response->status_code, "response" => $response
             ];
@@ -178,6 +178,8 @@ class GetnetService
     {
 
         $this->params = $params;
+        
+        Log::channel('getnet')->info("saveCard params: " . print_r($this->params, true));
 
         // Gera token do cartão - Obrigatório
         $this->tokenCard = new Token(
@@ -186,7 +188,7 @@ class GetnetService
             $this->getnet
         );
 
-        $cardHolderName = $this->cleanString( $this->params["cardHolderName"]);
+        $cardHolderName = mb_strtoupper($this->cleanString( $this->params["cardHolderName"]));
 
         $card = new Card($this->tokenCard);
         $card->setBrand($this->params["brand"])
@@ -194,8 +196,8 @@ class GetnetService
             ->setExpirationYear($this->params["expirationYear"])
             ->setCardholderName($cardHolderName)
             ->setSecurityCode($this->params["securityCode"]);
-
-        // set card info
+            
+            // set card info
         $cofre = new Cofre();
         $cofre->setCardInfo($card)
             ->setIdentification($this->params["clientCpfCnpj"])
