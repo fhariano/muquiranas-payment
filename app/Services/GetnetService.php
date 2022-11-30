@@ -221,7 +221,7 @@ class GetnetService
             ], $response->status_code);
         }
         
-        $response['cardType'] = $this->params["cardType"];
+        $response->cardType = $this->params["cardType"];
         return response()->json([
             "error" => false,
             "message" => "Cartão salvo com sucesso",
