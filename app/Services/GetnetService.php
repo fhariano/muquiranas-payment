@@ -209,7 +209,7 @@ class GetnetService
         $status = $response->getStatus();
         $response = $response->getResponseJSON();
         $response = json_decode($response);
-        $cvvEncrypted = encrypt($this->securityCode);
+        $cvvEncrypted = encrypt($this->params["securityCode"]);
         Log::channel('getnet')->info("status CVV: " . $cvvEncrypted);
         Log::channel('getnet')->info("status CVV: " . decrypt($cvvEncrypted));
 
