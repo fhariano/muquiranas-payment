@@ -209,8 +209,9 @@ class GetnetService
         $status = $response->getStatus();
         $response = $response->getResponseJSON();
         $response = json_decode($response);
-
-        Log::channel('getnet')->info("saveCard status: " . $status);
+        $cvvEncrypted = encrypt($this->securityCode);
+        Log::channel('getnet')->info("status CVV: " . $cvvEncrypted);
+        Log::channel('getnet')->info("status CVV: " . decrypt($cvvEncrypted));
 
         if ($status == 'ERROR') {
             Log::channel('getnet')->error("saveCard response: " . print_r($response, true));

@@ -16,22 +16,17 @@ return new class extends Migration
         Schema::create('users_cards', function (Blueprint $table) {
             $table->id();
             $table->uuid('identiy');
+            $table->uuid('card_id');
             $table->string('type', 10); // (Credit or Debit)
             $table->string('brand', 60);
-            $table->char('final_numbers', 4);
-            $table->double('amount', 8, 2);
-            $table->string('payment_id', 45)->unique()->nullable();
-            $table->string('status', 45)->nullable();
-            $table->string('authorization_code', 45)->nullable();
-            $table->dateTimeTz('authorized_at', $precision = 0)->nullable();
-            $table->string('reason_code', 45)->nullable();
-            $table->string('reason_message', 250)->nullable();
-            $table->string('acquirer', 45)->nullable();
-            $table->string('acquirer_transaction_id', 45)->nullable();
-            $table->string('transaction_id')->nullable();
-            $table->string('terminal_nsu')->nullable();
-            $table->dateTimeTz('received_at', $precision = 0)->nullable();
-            $table->boolean('delayed')->nullable();
+            $table->char('last_four_digits', 4);
+            $table->char('bin', 6);
+            $table->tinyInteger('expiration_month');
+            $table->tinyInteger('expiration_year');
+            $table->string('cardholder_name', 26);
+            $table->string('first_name', 26);
+            
+
             $table->timestamp('created_at');
         });
     }
