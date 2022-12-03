@@ -218,8 +218,7 @@ class GetnetService
                 "data" => [],
             ], $response->status_code);
         }
-        
-        $response->cardType = $this->params["cardType"];
+
         return response()->json([
             "error" => false,
             "message" => "Cartão salvo com sucesso",
@@ -244,9 +243,6 @@ class GetnetService
                 "data" => [],
             ], $response->status_code);
         }
-
-        $cardType = explode('_', $response['customer_id']);
-        $response['cardType'] = $cardType[0];
 
         return response()->json([
             "error" => false,
