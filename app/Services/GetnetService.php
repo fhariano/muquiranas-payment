@@ -154,6 +154,7 @@ class GetnetService
         
         if ($params['type'] == 'debit') {
             $callback = $response->getRedirectUrl();    
+            Log::channel('getnet')->info("debit callback: " . $callback);
         }
 
         $response = $response->getResponseJSON();
