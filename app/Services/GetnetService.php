@@ -151,8 +151,13 @@ class GetnetService
         // Processa a Transação
         $response = $this->getnet->authorize($this->transaction);
         $status = $response->getStatus();
-        $response = $response->getResponseJSON();
+        
+        if ($params['type'] == 'debit') {
+            $callback = $response->getRedirectUrl();    
+        }
 
+        $response = $response->getResponseJSON();
+        
         Log::channel('getnet')->info("status code: " . $status);
         
         $response = json_decode($response);
