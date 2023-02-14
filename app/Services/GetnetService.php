@@ -63,14 +63,15 @@ class GetnetService
         $this->transaction->setCustomerId($params["clientId"]);
 
         $response = $this->getnet->pix($this->transaction);
+        $statusCode = $response->getStatus();
 
-        Log::channel('getnet')->info("pix status code: " . $response->getStatus());
+        Log::channel('getnet')->info("pix status code: " . $statusCode);
         $response = $response->getResponseJSON();
         Log::channel('getnet')->info("pix response: " . print_r($response, true));
 
         $response = json_decode($response);
         $response = [
-            "status_code" => $response->status_code, "response" => $response
+            "status_code" => $statusCode, "response" => $response
         ];
 
         return $response;
