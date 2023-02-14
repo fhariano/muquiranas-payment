@@ -19,6 +19,7 @@ Route::get('/getnet-card/{card_id}', [GetnetController::class, 'getCardById']);
 Route::delete('/getnet-card/{card_id}', [GetnetController::class, 'removeCardById']);
 Route::get('/getnet-card/customer/{customer_id}', [GetnetController::class, 'getCardByCustomerId']);
 Route::post('/getnet-process-payment', [GetnetController::class, 'processPayment']);
+Route::post('/getnet-process-pix', [GetnetController::class, 'processPix']);
 
 Route::get('/', function () use ($router) {
     // return $router->app->version();

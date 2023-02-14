@@ -60,6 +60,25 @@ class GetnetController extends Controller
         ];
     }
 
+    public function processPix(Request $request)
+    {
+        $response = $this->genetService->paymentPix($request->all());
+
+        if ($response["status_code"] >= 300) {
+            $message = "Pagamento não processado.";
+
+            if ($response["status_code"] >= 500) {
+                $message = "Erro na operadora do cartão. Tente novamente em alguns minutos.";
+            }
+        }
+
+        return response()->json([
+            "success" => true,
+            "message" => "Pagamento Pix Processado.",
+            "data" => $response["response"]
+        ], $response["status_code"]);
+    }
+
     public function processPayment(Request $request)
     {
         $validator = $this->validateRequest($request);
