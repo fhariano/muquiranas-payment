@@ -210,10 +210,6 @@ class GetnetService
     {
 
         $this->params = $params;
-
-        // Inicia uma transação
-        $this->transaction = new Transaction();
-
         Log::channel('getnet')->info("saveCard params: " . print_r($this->params, true));
 
         // Gera token do cartão - Obrigatório
@@ -239,6 +235,9 @@ class GetnetService
             ->setCustomerId($this->params["clientId"]);
 
         Log::channel('getnet')->info("saveCard cofre: " . print_r($cofre, true));
+
+        // Inicia uma transação
+        $this->transaction = new Transaction();
 
         // Processa a Transação
         $this->transaction->cofre($cofre);
