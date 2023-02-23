@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "edson-nascimento/getnet-php": "^2.0",
+        "fhariano/getnet-php": "dev-main",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.11",
         "laravel/tinker": "^2.7"
