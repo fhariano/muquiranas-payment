@@ -15,4 +15,5 @@ yarn-error.log
 /.vscode
 /.docker
 *.log
+auth.json
 composer.lock

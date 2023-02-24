@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "fhariano/getnet-php": "dev-main",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.11",
         "laravel/tinker": "^2.7"
@@ -19,6 +20,13 @@
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "name": "fhariano/getnet-php",
+            "url": "git@github.com:fhariano/getnet-php.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "app/",
