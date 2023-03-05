@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\PaymentOtherController;
 use App\Http\Controllers\Getnet\GetnetController;
 use Illuminate\Support\Facades\Route;
 
