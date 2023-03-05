@@ -19,6 +19,20 @@ class PaymentOtherController extends Controller
 
     public function index(Request $request)
     {
-        $others = DB::table('Payment_Others');
+        $others = DB::table('Payment_Others')->orderBy('order')->get();
+
+        if ($others->isEmpty()) {
+            return response()->json([
+                "error" => true,
+                "message" => "Nenhum registro foi encontrado!",
+                "data" => [],
+            ], 404);
+        }
+
+        return response()->json([
+            "error" => false,
+            "message" => "Lista de outros pagamentos!",
+            "data" => $others,
+        ], 200);
     }
 }
