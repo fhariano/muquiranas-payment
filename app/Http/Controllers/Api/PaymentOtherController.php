@@ -19,7 +19,7 @@ class PaymentOtherController extends Controller
 
     public function index(Request $request)
     {
-        $others = DB::table('Payment_Others')->orderBy('order')->get();
+        $others = DB::table('payment_others')->orderBy('order')->get();
 
         if ($others->isEmpty()) {
             return response()->json([
