@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/list-others', [PaymentOtherController::class, 'getOthers']);
+Route::get('/list-others', [PaymentOtherController::class, 'index']);
 Route::get('/getnet-list-brands', [GetnetController::class, 'getBrands']);
 Route::post('/getnet-card', [GetnetController::class, 'saveCard']);
 Route::get('/getnet-card/{card_id}', [GetnetController::class, 'getCardById']);
