@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\OtherPayments;
+use App\Models\PaymentOthers;
 use Illuminate\Database\Seeder;
 
-class OtherPaymentSeeder extends Seeder
+class PaymentOthersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class OtherPaymentSeeder extends Seeder
      */
     public function run()
     {
-        $payment = OtherPayments::create([
+        $payment = PaymentOthers::create([
             'gateway' => 'Getnet',
             'label' => 'Pix',
             'detail' => 'Aprovação Imediata',

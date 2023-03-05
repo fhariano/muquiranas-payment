@@ -70,6 +70,12 @@ class GetnetController extends Controller
             if ($response["status_code"] >= 500) {
                 $message = "Erro na operadora do cartão. Tente novamente em alguns minutos.";
             }
+
+            return response()->json([
+                "success" => false,
+                "message" => $message,
+                "data" => []
+            ], $response["status_code"]);
         }
 
         return response()->json([
