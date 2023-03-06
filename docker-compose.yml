@@ -27,7 +27,6 @@ services:
     ports:
       - 443:443
       - 80:80
-      - 81:80
     volumes:
       - ./:/var/www
       - ./docker/nginx/:/etc/nginx/conf.d/
