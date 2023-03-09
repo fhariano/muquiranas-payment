@@ -16,7 +16,7 @@ class PaymentOthersSeeder extends Seeder
     {
         $payment = PaymentOthers::create([
             'gateway' => 'Getnet',
-            'label' => 'Pix',
+            'label' => 'Via Pix',
             'detail' => 'Aprovação Imediata',
             'img_url' => 'https://admin-h.muquiranasbar.com.br/img/pix.png',
             'api_sufix' => '/getnet/pix',
