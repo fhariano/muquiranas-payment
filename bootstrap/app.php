@@ -41,6 +41,12 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+
+// chk_user_auth: Autenticação no Micro Auth
+$app->routeMiddleware([
+    'chk_user_auth' => App\Http\Middleware\CheckUserAuth::class,
+]);
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
