@@ -228,12 +228,12 @@ class GetnetController extends Controller
     public function removeCardById(Request $request)
     {
         Log::channel('getnet')->info("removeCardById request: " . print_r($request->all(), true));
-
+        
         $response = $this->genetService->removeCardById($request->card_id);
-
+        
         return $response;
     }
-
+    
     public function validateRequest(Request $request)
     {
         return Validator::make($request->all(), [
@@ -261,9 +261,11 @@ class GetnetController extends Controller
             'clientCEP' => ['required', 'string', 'size:8'],
         ]);
     }
-
-    public function getBrands()
+    
+    public function getBrands(Request $request)
     {
+        Log::channel('getnet')->info("getBrands request: " . print_r($request->all(), true));
+
         return response()->json([
             "success" => true,
             "message" => "Bandeiras Aceitas",
