@@ -264,7 +264,7 @@ class GetnetController extends Controller
     
     public function getBrands(Request $request)
     {
-        Log::channel('getnet')->info("getBrands request: " . print_r($request->all(), true));
+        Log::channel('getnet')->info("getBrands request: " . print_r($request->header(), true));
 
         return response()->json([
             "success" => true,
