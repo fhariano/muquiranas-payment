@@ -304,12 +304,12 @@ class GetnetService
             return response()->json([
                 "error" => false,
                 "message" => "Erro ao salvar cartão na operadora",
-                "data" => [
+                "data" => ["cards" => array([
                     "card_id" => "ced85c6d-5dba-4755-b52b-5c7c9dbf0987",
                     "brand" => "visa",
                     "last_four_digits" => "1112",
                     "num_token" => "0e1c143743531f40423fbee7774351ed183b8ad5e156541bde5b1bf864208d0ca783053dd8363c4d7ed15a1f12e4515d1bea54d9ae8ef71e10ab830300e76d3e",
-                ],
+                ])],
             ], 200);
 
             // return response()->json([
