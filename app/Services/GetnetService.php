@@ -95,12 +95,16 @@ class GetnetService
             ->setProductType(Order::PRODUCT_TYPE_SERVICE)
             ->setSalesTax(0);
 
-        // Gera token do cartão - Obrigatório
-        $this->tokenCard = new Token(
-            $params["cardNumber"],
-            $params["clientId"],
-            $this->getnet
-        );
+        if (array_key_exists('numberToken', $params)) {
+            $this->tokenCard = $params['numberToken'];
+        } else {
+            // Gera token do cartão - Obrigatório
+            $this->tokenCard = new Token(
+                $params["cardNumber"],
+                $params["clientId"],
+                $this->getnet
+            );
+        }
 
         $cardHolderName = mb_strtoupper($this->cleanString($this->params["cardHolderName"]));
         $firstName = mb_strtoupper($this->cleanString($this->params["clientFirstName"]));
