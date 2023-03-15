@@ -77,6 +77,58 @@ class GetnetService
         return $response;
     }
 
+    public function processCredit(array $params = [])
+    {
+
+        $cardHolderName = mb_strtoupper($this->cleanString($this->params["cardHolderName"]));
+        $firstName = mb_strtoupper($this->cleanString($this->params["clientFirstName"]));
+        $lastName = mb_strtoupper($this->cleanString($this->params["clientLastName"]));
+
+        $transactionData = array(
+            "seller_id" => $this->seller_id,
+            "amount" => (int) ($params["amount"] * 100),
+            "currency" => "BRL",
+            "order" => array("order_id" => $params["orderId"]),
+            "customer" => array(
+                "customer_id" => $params["clientId"],
+                "first_name" => $firstName,
+                "last_name" => $lastName,
+                "email" => $params["clientEmail"],
+                "document_type" => $params["clientDocType"],
+                "document_number" => $params["clientCpfCnpj"],
+                "phone_number" => $params["clientPhone"],
+                "phone_number" => $params["clientPhone"],
+                "billing_address" => array(
+                    "street" => $params["clientStreet"],
+                    "number" => $params["clientNumber"],
+                    "complement" => isset($params["clientNumber"]) ? $params["clientNumber"] : "",
+                    "district" => $params["clientDistrict"],
+                    "city" => $params["clientCity"],
+                    "state" => $params["clientUF"],
+                    "postal_code" => $params["clientCEP"],
+                ),
+            ),
+            "credit" => array(
+                "delayed" => false,
+                "save_card_data" => false,
+                "transaction_type" => Credit::TRANSACTION_TYPE_FULL,
+                "number_installments" => 1,
+                "soft_descriptor" => $params["softDescriptor"],
+                "card" => array(
+                    "number_token" => $params["numberToken"],
+                    "cardholder_name" => $cardHolderName,
+                    "brand" =>  $params["brand"],
+                    "expiration_month" =>  $params["expirationMonth"],
+                    "expiration_year" =>  $params["expirationYear"],
+                ),
+            ),
+        );
+
+        Log::channel('getnet')->info("processCredit transactionData: " . print_r($transactionData, true));
+        Log::channel('getnet')->info("processCredit authorization token: " . $this->getnet->getAuthorizationToken());
+        Log::channel('getnet')->info("processCredit authorization sellerId: " . $this->seller_id);
+    }
+
     public function payment(array $params = [])
     {
 
@@ -95,16 +147,12 @@ class GetnetService
             ->setProductType(Order::PRODUCT_TYPE_SERVICE)
             ->setSalesTax(0);
 
-        if (array_key_exists('numberToken', $this->params)) {
-            $this->tokenCard = $this->params['numberToken'];
-        } else {
-            // Gera token do cartão - Obrigatório
-            $this->tokenCard = new Token(
-                $params["cardNumber"],
-                $params["clientId"],
-                $this->getnet
-            );
-        }
+        // Gera token do cartão - Obrigatório
+        $this->tokenCard = new Token(
+            $params["cardNumber"],
+            $params["clientId"],
+            $this->getnet
+        );
 
         $cardHolderName = mb_strtoupper($this->cleanString($this->params["cardHolderName"]));
         $firstName = mb_strtoupper($this->cleanString($this->params["clientFirstName"]));
