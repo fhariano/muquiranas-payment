@@ -147,7 +147,17 @@ class GetnetService
 
         Log::channel('getnet')->info("processCredit status: " . print_r($response->status(), true));
         Log::channel('getnet')->info("processCredit response: " . print_r($response->body(), true));
-        
+
+        if ($response->status() > 299) {
+            $response = [
+                "status_code" => $response->status(), "response" => json_decode($response->body())
+            ];
+        } else {
+            $response = [
+                "status_code" => 200, "response" => json_decode($response->body())
+            ];
+        }
+
         // $authresponse = new AuthorizeResponse();
         // $response = $authresponse->mapperJson($response);
 
@@ -171,8 +181,7 @@ class GetnetService
         //     ];
         // }
 
-        // return $response;
-        return [];
+        return $response;
     }
 
     public function payment(array $params = [])
