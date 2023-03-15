@@ -85,6 +85,47 @@ class GetnetController extends Controller
         ], $response["status_code"]);
     }
 
+    public function processCredit(Request $request)
+    {
+        $validator = $this->validateRequest($request);
+
+        if ($validator->errors()->count() > 0) {
+            return response()->json([
+                "success" => false,
+                "message" => "Campo(s) não validado(s)",
+                "data" => $validator->errors()->getMessages()
+            ], 412);
+        }
+
+        $response = $this->genetService->processCredit($request->all());
+
+        if ($response["status_code"] >= 300) {
+            $message = "Pagamento não processado.";
+
+            if ($response["status_code"] >= 500) {
+                $message = "Erro na operadora do cartão. Tente novamente em alguns minutos.";
+            }
+
+            $insertedId = $this->saveTransaction($request->all(), $response["response"], "error");
+            $response["response"]->inserted = $insertedId;
+
+            return response()->json([
+                "success" => false,
+                "message" => $message,
+                "data" => $response["response"]
+            ], $response["status_code"]);
+        }
+
+        $insertedId = $this->saveTransaction($request->all(), $response["response"]);
+        $response["response"]->inserted = $insertedId;
+
+        return response()->json([
+            "success" => true,
+            "message" => "Pagamento processado.",
+            "data" => $response["response"]
+        ], $response["status_code"]);
+    }
+    
     public function processPayment(Request $request)
     {
         $validator = $this->validateRequest($request);
