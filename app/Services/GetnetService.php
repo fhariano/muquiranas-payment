@@ -133,10 +133,10 @@ class GetnetService
 
         try {
             $baseUrl =  $this->getnet->getEnvironment()->getApiUrl();
-            $barer = $this->getnet->getAuthorizationToken();
+            $bearer = $this->getnet->getAuthorizationToken();
             $response = Http::acceptJson()
                 ->withHeaders([
-                    'authorization' => "Barer " . $barer,
+                    'authorization' => "Bearer " . $bearer,
                     'seller_id' => $this->seller_id
                 ])
                 ->post($baseUrl . "/v1/payments/credit", $transactionData);
