@@ -127,6 +127,14 @@ class GetnetService
         Log::channel('getnet')->info("processCredit transactionData: " . print_r($transactionData, true));
         Log::channel('getnet')->info("processCredit authorization token: " . $this->getnet->getAuthorizationToken());
         Log::channel('getnet')->info("processCredit authorization sellerId: " . $this->seller_id);
+        Log::channel('getnet')->info("processCredit getnet url: " . $this->getnet->getEnvironment()->getApiUrl());
+
+        // try {
+            
+        // } catch (\Exception $e) {
+        //     //throw $th;
+        // }
+
     }
 
     public function payment(array $params = [])
