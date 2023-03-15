@@ -145,32 +145,34 @@ class GetnetService
             Log::channel('getnet')->error("processCredit exception: " . print_r($e, true));
         }
 
+        Log::channel('getnet')->info("processCredit status: " . print_r($response->status(), true));
+        Log::channel('getnet')->info("processCredit response: " . print_r($response->body(), true));
         
-        $authresponse = new AuthorizeResponse();
-        $response = $authresponse->mapperJson($response);
-        Log::channel('getnet')->info("processCredit response: " . print_r($response, true));
+        // $authresponse = new AuthorizeResponse();
+        // $response = $authresponse->mapperJson($response);
 
-        $status = $response->getStatus();
-        Log::channel('getnet')->info("status code: " . $status);
+        // $status = $response->getStatus();
+        // Log::channel('getnet')->info("status code: " . $status);
 
-        $response = $response->getResponseJSON();
+        // $response = $response->getResponseJSON();
 
-        if ($status  != "APPROVED") {
-            Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientId: {$params["clientId"]} - orderId: {$params["orderId"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
-            Log::channel('getnet')->error("response: " . print_r($response, true));
+        // if ($status  != "APPROVED") {
+        //     Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientId: {$params["clientId"]} - orderId: {$params["orderId"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
+        //     Log::channel('getnet')->error("response: " . print_r($response, true));
 
-            $response = [
-                "status_code" => $response->status_code, "response" => $response
-            ];
-        } else {
-            Log::channel('getnet')->info("PAYMENT => barID: {$params["barId"]} - clientId: {$params["clientId"]} - orderId: {$params["orderId"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
-            Log::channel('getnet')->info("response: " . print_r($response, true));
-            $response = [
-                "status_code" => 200, "response" => $response
-            ];
-        }
+        //     $response = [
+        //         "status_code" => $response->status_code, "response" => $response
+        //     ];
+        // } else {
+        //     Log::channel('getnet')->info("PAYMENT => barID: {$params["barId"]} - clientId: {$params["clientId"]} - orderId: {$params["orderId"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
+        //     Log::channel('getnet')->info("response: " . print_r($response, true));
+        //     $response = [
+        //         "status_code" => 200, "response" => $response
+        //     ];
+        // }
 
-        return $response;
+        // return $response;
+        return [];
     }
 
     public function payment(array $params = [])
