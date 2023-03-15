@@ -145,10 +145,10 @@ class GetnetService
             Log::channel('getnet')->error("processCredit exception: " . print_r($e, true));
         }
 
-        Log::channel('getnet')->info("processCredit response: " . print_r($response->body(), true));
-
+        
         $authresponse = new AuthorizeResponse();
         $response = $authresponse->mapperJson($response);
+        Log::channel('getnet')->info("processCredit response: " . print_r($response, true));
 
         $status = $response->getStatus();
         Log::channel('getnet')->info("status code: " . $status);
