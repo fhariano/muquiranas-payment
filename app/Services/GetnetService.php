@@ -146,7 +146,7 @@ class GetnetService
 
 
         $authresponse = new AuthorizeResponse();
-        $authresponse->mapperJson($response);
+        $response = $authresponse->mapperJson($authresponse);
 
         $status = $response->getStatus();
         Log::channel('getnet')->info("status code: " . $status);
