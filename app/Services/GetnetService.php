@@ -80,9 +80,9 @@ class GetnetService
     public function processCredit(array $params = [])
     {
 
-        $cardHolderName = mb_strtoupper($this->cleanString($this->params["cardHolderName"]));
-        $firstName = mb_strtoupper($this->cleanString($this->params["clientFirstName"]));
-        $lastName = mb_strtoupper($this->cleanString($this->params["clientLastName"]));
+        $cardHolderName = mb_strtoupper($this->cleanString($params["cardHolderName"]));
+        $firstName = mb_strtoupper($this->cleanString($params["clientFirstName"]));
+        $lastName = mb_strtoupper($this->cleanString($params["clientLastName"]));
 
         $transactionData = array(
             "seller_id" => $this->seller_id,
