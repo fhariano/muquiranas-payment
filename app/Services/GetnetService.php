@@ -140,7 +140,7 @@ class GetnetService
                     'seller_id' => $this->seller_id,
                     'Content-Type' => "application/json"
                 ])
-                ->post($baseUrl . "/v1/payments/credit", $transactionData);
+                ->post($baseUrl . "/v1/payments/credit", json_encode($transactionData));
         } catch (\Exception $e) {
             Log::channel('getnet')->error("processCredit exception: " . print_r($e, true));
         }
