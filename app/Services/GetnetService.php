@@ -96,7 +96,7 @@ class GetnetService
             ->setSalesTax(0);
 
         if (array_key_exists('numberToken', $params)) {
-            $this->tokenCard = $params['numberToken'];
+            $this->tokenCard = $params['number_token'];
         } else {
             // Gera token do cartão - Obrigatório
             $this->tokenCard = new Token(
