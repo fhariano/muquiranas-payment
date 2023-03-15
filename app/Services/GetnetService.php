@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Getnet\API\AuthorizeResponse;
 use Getnet\API\Card;
 use Getnet\API\Cofre;
 use Getnet\API\Credit;
@@ -12,6 +13,7 @@ use Getnet\API\Order;
 use Getnet\API\PixTransaction;
 use Getnet\API\Token;
 use Getnet\API\Transaction;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class GetnetService
@@ -129,12 +131,45 @@ class GetnetService
         Log::channel('getnet')->info("processCredit authorization sellerId: " . $this->seller_id);
         Log::channel('getnet')->info("processCredit getnet url: " . $this->getnet->getEnvironment()->getApiUrl());
 
-        // try {
-            
-        // } catch (\Exception $e) {
-        //     //throw $th;
-        // }
+        try {
+            $baseUrl =  $this->getnet->getEnvironment()->getApiUrl();
+            $barer = $this->getnet->getAuthorizationToken();
+            $response = Http::acceptJson()
+                ->withHeaders([
+                    'authorization' => "Barer " . $barer,
+                    'seller_id' => $this->seller_id
+                ])
+                ->post($baseUrl . "/v1/payments/credit", $transactionData);
+        } catch (\Exception $e) {
+            Log::channel('getnet')->error("processCredit exception: " . print_r($e, true));
+        }
 
+
+        $authresponse = new AuthorizeResponse();
+        $authresponse->mapperJson($response);
+
+        $status = $response->getStatus();
+        Log::channel('getnet')->info("status code: " . $status);
+
+        $response = $response->getResponseJSON();
+        Log::channel('getnet')->info("processCredit response: " . print_r($response, true));
+
+        if ($status  != "APPROVED") {
+            Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientId: {$params["clientId"]} - orderId: {$params["orderId"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
+            Log::channel('getnet')->error("response: " . print_r($response, true));
+
+            $response = [
+                "status_code" => $response->status_code, "response" => $response
+            ];
+        } else {
+            Log::channel('getnet')->info("PAYMENT => barID: {$params["barId"]} - clientId: {$params["clientId"]} - orderId: {$params["orderId"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
+            Log::channel('getnet')->info("response: " . print_r($response, true));
+            $response = [
+                "status_code" => 200, "response" => $response
+            ];
+        }
+
+        return $response;
     }
 
     public function payment(array $params = [])
