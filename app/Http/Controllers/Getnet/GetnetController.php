@@ -228,12 +228,12 @@ class GetnetController extends Controller
     public function removeCardById(Request $request)
     {
         Log::channel('getnet')->info("removeCardById request: " . print_r($request->all(), true));
-        
+
         $response = $this->genetService->removeCardById($request->card_id);
-        
+
         return $response;
     }
-    
+
     public function validateRequest(Request $request)
     {
         return Validator::make($request->all(), [
@@ -241,7 +241,7 @@ class GetnetController extends Controller
             'brand' => ['required', Rule::in(['Mastercard', 'Visa', 'Amex', 'Elo', 'Hipercard'])],
             'amount' => ['required', 'gt:0'],
             'orderId' => ['required', 'String', 'min:3'],
-            'cardNumber' => ['required', 'string', 'nullable|size:16'],
+            'cardNumber' => ['nullable, size:16'],
             'cardHolderName' => ['required', 'string', 'min:3'],
             'expirationMonth' => ['required', 'integer', 'between:1,12'],
             'expirationYear' => ['required', 'integer', 'gte:' . date('y')],
@@ -261,7 +261,7 @@ class GetnetController extends Controller
             'clientCEP' => ['required', 'string', 'size:8'],
         ]);
     }
-    
+
     public function getBrands(Request $request)
     {
         return response()->json([
