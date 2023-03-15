@@ -137,14 +137,15 @@ class GetnetService
             $response = Http::acceptJson()
                 ->withHeaders([
                     'authorization' => "Bearer " . $bearer,
-                    'seller_id' => $this->seller_id
+                    'seller_id' => $this->seller_id,
+                    'Content-Type' => "application/json"
                 ])
                 ->post($baseUrl . "/v1/payments/credit", $transactionData);
         } catch (\Exception $e) {
             Log::channel('getnet')->error("processCredit exception: " . print_r($e, true));
         }
 
-        Log::channel('getnet')->info("processCredit response: " . print_r($response, true));
+        Log::channel('getnet')->info("processCredit response: " . print_r($response->body(), true));
 
         // if ($status  != "APPROVED") {
         //     Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientId: {$params["clientId"]} - orderId: {$params["orderId"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
