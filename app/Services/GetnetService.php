@@ -148,7 +148,7 @@ class GetnetService
         Log::channel('getnet')->info("processCredit response: " . print_r($response->body(), true));
 
         $authresponse = new AuthorizeResponse();
-        $response = $authresponse->mapperJson($authresponse);
+        $response = $authresponse->mapperJson($response);
 
         $status = $response->getStatus();
         Log::channel('getnet')->info("status code: " . $status);
