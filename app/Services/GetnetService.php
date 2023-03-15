@@ -126,24 +126,24 @@ class GetnetService
             ),
         );
 
-        Log::channel('getnet')->info("processCredit transactionData: " . print_r($transactionData, true));
+        Log::channel('getnet')->info("processCredit transactionData: " . print_r(json_encode($transactionData), true));
         Log::channel('getnet')->info("processCredit authorization token: " . $this->getnet->getAuthorizationToken());
         Log::channel('getnet')->info("processCredit authorization sellerId: " . $this->seller_id);
         Log::channel('getnet')->info("processCredit getnet url: " . $this->getnet->getEnvironment()->getApiUrl());
 
-        try {
-            $baseUrl =  $this->getnet->getEnvironment()->getApiUrl();
-            $bearer = $this->getnet->getAuthorizationToken();
-            $response = Http::acceptJson()
-                ->withHeaders([
-                    'authorization' => "Bearer " . $bearer,
-                    'seller_id' => $this->seller_id,
-                    'Content-Type' => "application/json"
-                ])
-                ->post($baseUrl . "/v1/payments/credit", json_encode($transactionData));
-        } catch (\Exception $e) {
-            Log::channel('getnet')->error("processCredit exception: " . print_r($e, true));
-        }
+        // try {
+        //     $baseUrl =  $this->getnet->getEnvironment()->getApiUrl();
+        //     $bearer = $this->getnet->getAuthorizationToken();
+        //     $response = Http::acceptJson()
+        //         ->withHeaders([
+        //             'authorization' => "Bearer " . $bearer,
+        //             'seller_id' => $this->seller_id,
+        //             'Content-Type' => "application/json"
+        //         ])
+        //         ->post($baseUrl . "/v1/payments/credit", json_encode($transactionData));
+        // } catch (\Exception $e) {
+        //     Log::channel('getnet')->error("processCredit exception: " . print_r($e, true));
+        // }
 
         Log::channel('getnet')->info("processCredit response: " . print_r($response->body(), true));
 
@@ -162,7 +162,8 @@ class GetnetService
         //     ];
         // }
 
-        return $response;
+        // return $response;
+        return [];
     }
 
     public function payment(array $params = [])
