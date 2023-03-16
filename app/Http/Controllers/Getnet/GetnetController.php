@@ -29,7 +29,6 @@ class GetnetController extends Controller
      *    expirationYear
      *    securityCode
      *    softDescriptor Ex.: "MUQUIRANAS*ST*ANDRE"
-     *    clientId
      *    clientFirstName
      *    clientLastName
      *    clientCpfCnpj
@@ -281,7 +280,7 @@ class GetnetController extends Controller
             'type' => ['required', Rule::in(['debit', 'credit'])],
             'brand' => ['required', Rule::in(['Mastercard', 'Visa', 'Amex', 'Elo', 'Hipercard'])],
             'amount' => ['required', 'gt:0'],
-            'orderId' => ['required', 'String', 'min:3'],
+            'orderNum' => ['required', 'String', 'min:15'],
             'cardHolderName' => ['required', 'string', 'min:3'],
             'expirationMonth' => ['required', 'integer', 'between:1,12'],
             'expirationYear' => ['required', 'integer', 'gte:' . date('y')],
