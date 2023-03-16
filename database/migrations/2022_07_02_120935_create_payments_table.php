@@ -18,8 +18,8 @@ return new class extends Migration
             $table->bigInteger('bar_id');
             $table->string('seller_id', 40);
             $table->string('soft_descriptor', 45);
-            $table->bigInteger('client_id');
-            $table->bigInteger('order_id');
+            $table->uuid('client_identify');
+            $table->char('order_num', 15);
             $table->string('brand', 60);
             $table->char('final_numbers', 4);
             $table->char('type', 1); // (C)redit or (D)ebit 
