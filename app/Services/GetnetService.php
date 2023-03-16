@@ -61,7 +61,7 @@ class GetnetService
         // Dados do pedido - Transação
         // $this->transaction->setSellerId($this->seller_id);
         $this->transaction->setCurrency("BRL");
-        $this->transaction->setOrderId($params["oderNum"]);
+        $this->transaction->setOrderId($params["orderNum"]);
         $this->transaction->setCustomerId($params["clientIdentify"]);
 
         $response = $this->getnet->pix($this->transaction);
@@ -90,7 +90,7 @@ class GetnetService
             "seller_id" => $this->seller_id,
             "amount" => (int) ($params["amount"] * 100),
             "currency" => "BRL",
-            "order" => array("order_id" => $params["oderNum"]),
+            "order" => array("order_id" => $params["orderNum"]),
             "customer" => array(
                 "customer_id" => $params["clientIdentify"],
                 "first_name" => $firstName,
@@ -167,14 +167,14 @@ class GetnetService
         // $response = $response->getResponseJSON();
 
         // if ($status  != "APPROVED") {
-        //     Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$params["clientIdentify"]} - oderNum: {$params["oderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
+        //     Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$params["clientIdentify"]} - orderNum: {$params["orderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
         //     Log::channel('getnet')->error("response: " . print_r($response, true));
 
         //     $response = [
         //         "status_code" => $response->status_code, "response" => $response
         //     ];
         // } else {
-        //     Log::channel('getnet')->info("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$params["clientIdentify"]} - oderNum: {$params["oderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
+        //     Log::channel('getnet')->info("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$params["clientIdentify"]} - orderNum: {$params["orderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
         //     Log::channel('getnet')->info("response: " . print_r($response, true));
         //     $response = [
         //         "status_code" => 200, "response" => $response
@@ -198,7 +198,7 @@ class GetnetService
         $this->transaction->setAmount($params["amount"]);
 
         // Detalhes do Pedido
-        $this->transaction->order($params["oderNum"])
+        $this->transaction->order($params["orderNum"])
             ->setProductType(Order::PRODUCT_TYPE_SERVICE)
             ->setSalesTax(0);
 
@@ -296,14 +296,14 @@ class GetnetService
 
         $response = json_decode($response);
         if ($status  != "APPROVED") {
-            Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$params["clientIdentify"]} - oderNum: {$params["oderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
+            Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$params["clientIdentify"]} - orderNum: {$params["orderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
             Log::channel('getnet')->error("response: " . print_r($response, true));
 
             $response = [
                 "status_code" => $response->status_code, "response" => $response
             ];
         } else {
-            Log::channel('getnet')->info("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$params["clientIdentify"]} - oderNum: {$params["oderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
+            Log::channel('getnet')->info("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$params["clientIdentify"]} - orderNum: {$params["orderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
             Log::channel('getnet')->info("response: " . print_r($response, true));
             $response = [
                 "status_code" => 200, "response" => $response
