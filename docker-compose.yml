@@ -43,6 +43,7 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      TZ: "${TZ:-America/Sao_Paulo}"
     volumes:
       - ./.docker/mysql/dbdata:/var/lib/mysql
     ports:
