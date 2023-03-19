@@ -398,14 +398,14 @@ class GetnetService
     {
         // Processa a Transação
         $response = $this->getnet->getCofreByCustomerId($customer_id);
+        Log::channel('getnet')->info("getCardByCustomerId response: " . print_r($response, true));
 
         $status = $response->getStatus();
         $response = $response->getResponseJSON();
         $response = json_decode($response);
 
         Log::channel('getnet')->info("getCardByCustomerId status: " . $status);
-        Log::channel('getnet')->info("getCardByCustomerId response: " . print_r($response, true));
-        if ($status == 'ERROR' || isset($response->status_code)) {
+        if ($status == 'ERROR' || isset($response->status_code) || !$response) {
             Log::channel('getnet')->error("getCardByCustomerId response: " . print_r($response, true));
 
             // return response()->json([
