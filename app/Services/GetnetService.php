@@ -75,13 +75,14 @@ class GetnetService
         $response = [
             "status_code" => $statusCode, "response" => $response
         ];
-
+        
         return $response;
     }
 
     public function processCredit(array $params = [])
     {
-
+        
+        Log::channel('getnet')->info("processCredit params: " . print_r($params, true));
         $cardHolderName = mb_strtoupper($this->cleanString($params["cardHolderName"]));
         $firstName = mb_strtoupper($this->cleanString($params["clientFirstName"]));
         $lastName = mb_strtoupper($this->cleanString($params["clientLastName"]));

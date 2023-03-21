@@ -89,6 +89,8 @@ class GetnetController extends Controller
         $validator = $this->validateRequest($request);
 
         if ($validator->errors()->count() > 0) {
+            Log::channel('getnet')->error("processCredit ValidateRequest: " . print_r($validator->errors(), true));
+            
             return response()->json([
                 "success" => false,
                 "message" => "Campo(s) não validado(s)",
@@ -280,7 +282,7 @@ class GetnetController extends Controller
             'type' => ['required', Rule::in(['debit', 'credit'])],
             'brand' => ['required', Rule::in(['Mastercard', 'Visa', 'Amex', 'Elo', 'Hipercard'])],
             'amount' => ['required', 'gt:0'],
-            'orderNum' => ['required', 'String', 'min:15'],
+            'orderNum' => ['required', 'String', 'min:10'],
             'cardHolderName' => ['required', 'string', 'min:3'],
             'expirationMonth' => ['required', 'integer', 'between:1,12'],
             'expirationYear' => ['required', 'integer', 'gte:' . date('y')],
