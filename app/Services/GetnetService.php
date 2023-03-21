@@ -353,7 +353,7 @@ class GetnetService
         $response = $response->getResponseJSON();
         $response = json_decode($response);
 
-        if ($status == 'ERROR') {
+        if ($status == 'ERROR' || isset($response->status_code) || !$response) {
             Log::channel('getnet')->error("saveCard response: " . print_r($response, true));
             return response()->json([
                 "error" => true,
