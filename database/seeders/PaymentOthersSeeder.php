@@ -23,5 +23,25 @@ class PaymentOthersSeeder extends Seeder
             'order' => 1,
             'inserted_for' => 'Flavio Ariano',
         ]);
+
+        $payment->create([
+            'gateway' => 'Getnet',
+            'label' => 'Débito',
+            'detail' => 'Visa, Mastercard e Elo',
+            'img_url' => 'https://admin-h.muquiranasbar.com.br/img/debit.png',
+            'api_sufix' => '/getnet/debit',
+            'order' => 2,
+            'inserted_for' => 'Flavio Ariano',
+        ]);
+
+        $payment->create([
+            'gateway' => 'Getnet',
+            'label' => 'Crédito',
+            'detail' => 'Visa, Mastercard, Elo, AmEx e Hipercard',
+            'img_url' => 'https://admin-h.muquiranasbar.com.br/img/credit.png',
+            'api_sufix' => '/getnet/credit',
+            'order' => 3,
+            'inserted_for' => 'Flavio Ariano',
+        ]);
     }
 }
