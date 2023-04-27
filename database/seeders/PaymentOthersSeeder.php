@@ -20,7 +20,9 @@ class PaymentOthersSeeder extends Seeder
             'detail' => 'Pagamento somente em dinheiro',
             'img_url' => 'https://admin-h.muquiranasbar.com.br/img/credit.png',
             'api_sufix' => '/getnet/credit',
+            'only_app' => false,
             'only_pdv' => true,
+            'only_totem' => false,
             'order' => 1,
             'inserted_for' => 'Flavio Ariano',
         ]);
@@ -30,6 +32,9 @@ class PaymentOthersSeeder extends Seeder
             'detail' => 'Aprovação Imediata',
             'img_url' => 'https://admin-h.muquiranasbar.com.br/img/pix.png',
             'api_sufix' => '/getnet/pix',
+            'only_app' => true,
+            'only_pdv' => true,
+            'only_totem' => true,
             'order' => 2,
             'inserted_for' => 'Flavio Ariano',
         ]);
@@ -40,6 +45,9 @@ class PaymentOthersSeeder extends Seeder
             'detail' => 'Visa, Mastercard e Elo',
             'img_url' => 'https://admin-h.muquiranasbar.com.br/img/debit.png',
             'api_sufix' => '/getnet/debit',
+            'only_app' => true,
+            'only_pdv' => true,
+            'only_totem' => true,
             'order' => 3,
             'inserted_for' => 'Flavio Ariano',
         ]);
@@ -50,6 +58,9 @@ class PaymentOthersSeeder extends Seeder
             'detail' => 'Visa, Mastercard, Elo, AmEx e Hipercard',
             'img_url' => 'https://admin-h.muquiranasbar.com.br/img/credit.png',
             'api_sufix' => '/getnet/credit',
+            'only_app' => true,
+            'only_pdv' => true,
+            'only_totem' => true,
             'order' => 4,
             'inserted_for' => 'Flavio Ariano',
         ]);
