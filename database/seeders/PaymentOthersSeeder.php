@@ -18,7 +18,7 @@ class PaymentOthersSeeder extends Seeder
             'gateway' => 'Pdv',
             'label' => 'Dinheiro',
             'detail' => 'Pagamento somente em dinheiro',
-            'img_url' => 'https://payment-h.muquiranasbar.com.br/imgs/credit.png',
+            'img_url' => 'https://payment-h.muquiranasbar.com.br/imgs/money.png',
             'api_sufix' => '/getnet/credit',
             'only_app' => false,
             'only_pdv' => true,
