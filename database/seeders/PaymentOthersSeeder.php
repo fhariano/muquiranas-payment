@@ -29,7 +29,7 @@ class PaymentOthersSeeder extends Seeder
         $payment->create([
             'gateway' => 'Getnet',
             'label' => 'Via Pix',
-            'detail' => 'Aprovação Imediata',
+            'detail' => 'Utilize o app do seu banco',
             'img_url' => 'https://payment-h.muquiranasbar.com.br/imgs/pix.png',
             'api_sufix' => '/getnet/pix',
             'only_app' => true,
