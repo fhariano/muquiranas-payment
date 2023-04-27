@@ -15,12 +15,22 @@ class PaymentOthersSeeder extends Seeder
     public function run()
     {
         $payment = PaymentOthers::create([
+            'gateway' => 'Pdv',
+            'label' => 'Dinheiro',
+            'detail' => 'Pagamento somente em dinheiro',
+            'img_url' => 'https://admin-h.muquiranasbar.com.br/img/credit.png',
+            'api_sufix' => '/getnet/credit',
+            'only_pdv' => true,
+            'order' => 1,
+            'inserted_for' => 'Flavio Ariano',
+        ]);
+        $payment->create([
             'gateway' => 'Getnet',
             'label' => 'Via Pix',
             'detail' => 'Aprovação Imediata',
             'img_url' => 'https://admin-h.muquiranasbar.com.br/img/pix.png',
             'api_sufix' => '/getnet/pix',
-            'order' => 1,
+            'order' => 2,
             'inserted_for' => 'Flavio Ariano',
         ]);
 
@@ -30,7 +40,7 @@ class PaymentOthersSeeder extends Seeder
             'detail' => 'Visa, Mastercard e Elo',
             'img_url' => 'https://admin-h.muquiranasbar.com.br/img/debit.png',
             'api_sufix' => '/getnet/debit',
-            'order' => 2,
+            'order' => 3,
             'inserted_for' => 'Flavio Ariano',
         ]);
 
@@ -40,7 +50,7 @@ class PaymentOthersSeeder extends Seeder
             'detail' => 'Visa, Mastercard, Elo, AmEx e Hipercard',
             'img_url' => 'https://admin-h.muquiranasbar.com.br/img/credit.png',
             'api_sufix' => '/getnet/credit',
-            'order' => 3,
+            'order' => 4,
             'inserted_for' => 'Flavio Ariano',
         ]);
     }

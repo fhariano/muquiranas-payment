@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('detail',120);
             $table->string('img_url',255);
             $table->string('api_sufix',255);
+            $table->boolean('only_pdv')->default(false);
             $table->tinyInteger('order');
             $table->string('inserted_for',60);
             $table->timestamp('created_at')->useCurrent();

@@ -19,7 +19,8 @@ class PaymentOtherController extends Controller
 
     public function index(Request $request)
     {
-        $others = DB::table('payment_others')->orderBy('order')->get();
+        $onlyPdv = ($request->exists('pdv')) ? true : false;
+        $others = DB::table('payment_others')->where('only_pdv', $onlyPdv)->orderBy('order')->get();
 
         if ($others->isEmpty()) {
             return response()->json([
