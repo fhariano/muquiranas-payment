@@ -348,8 +348,8 @@ class GetnetService
         $this->transaction = new Transaction();
         
         // Processa a Transação
-        $this->transaction->cofre($cofre);
-        Log::channel('getnet')->info("saveCard transaction: " . print_r($this->transaction->toJSON()["cofre"], true));
+        $this->transaction->setCofre($cofre);
+        Log::channel('getnet')->info("saveCard transaction: " . print_r($this->transaction->getCofre()->toJSON(), true));
         $response = $this->getnet->cofre($this->transaction);
         $status = $response->getStatus();
         $response = $response->getResponseJSON();
