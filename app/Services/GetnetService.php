@@ -343,12 +343,13 @@ class GetnetService
             ->setCustomerId($this->params["clientIdentify"]);
 
         Log::channel('getnet')->info("saveCard cofre: " . print_r($cofre, true));
-
+        
         // Inicia uma transação
         $this->transaction = new Transaction();
-
+        
         // Processa a Transação
         $this->transaction->cofre($cofre);
+        Log::channel('getnet')->info("saveCard transaction: " . print_r($this->transaction->toJSON(), true));
         $response = $this->getnet->cofre($this->transaction);
         $status = $response->getStatus();
         $response = $response->getResponseJSON();
