@@ -324,16 +324,17 @@ class GetnetService
 
         $this->params = $params;
         Log::channel('getnet')->info("saveCard params: " . print_r($this->params, true));
-
+        
         $customerId = mb_strtoupper($this->cleanString($params["clientIdentify"]));
-
+        Log::channel('getnet')->info("saveCard customerId: $customerId");
+        
         // Gera token do cartão - Obrigatório
         $this->tokenCard = new Token(
             $params["cardNumber"],
             $customerId,
             $this->getnet
         );
-
+        
         $cardHolderName = mb_strtoupper($this->cleanString($this->params["cardHolderName"]));
 
         $card = new Card($this->tokenCard);
