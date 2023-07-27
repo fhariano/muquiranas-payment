@@ -58,7 +58,7 @@ class GetnetService
         $this->getnet->setSellerId($this->seller_id);
         $this->transaction = new PixTransaction($params["amount"]);
         
-        $customerId = mb_strtoupper($this->cleanString($params["clientIdentify"]));
+        $customerId = $this->cleanString($params["clientIdentify"]);
 
         // Dados do pedido - Transação
         // $this->transaction->setSellerId($this->seller_id);
@@ -88,7 +88,7 @@ class GetnetService
         $cardHolderName = mb_strtoupper($this->cleanString($params["cardHolderName"]));
         $firstName = mb_strtoupper($this->cleanString($params["clientFirstName"]));
         $lastName = mb_strtoupper($this->cleanString($params["clientLastName"]));
-        $customerId = mb_strtoupper($this->cleanString($params["clientIdentify"]));
+        $customerId = $this->cleanString($params["clientIdentify"]);
 
         $transactionData = array(
             "seller_id" => $this->seller_id,
@@ -196,7 +196,7 @@ class GetnetService
         // Inicia uma transação
         $this->transaction = new Transaction();
 
-        $customerId = mb_strtoupper($this->cleanString($params["clientIdentify"]));
+        $customerId = $this->cleanString($params["clientIdentify"]);
 
         // Dados do pedido - Transação
         $this->transaction->setSellerId($this->seller_id);
@@ -325,7 +325,7 @@ class GetnetService
         $this->params = $params;
         Log::channel('getnet')->info("saveCard params: " . print_r($this->params, true));
         
-        $customerId = mb_strtoupper($this->cleanString($params["clientIdentify"]));
+        $customerId = $this->cleanString($params["clientIdentify"]);
         Log::channel('getnet')->info("saveCard customerId: $customerId");
         
         // Gera token do cartão - Obrigatório
@@ -487,7 +487,8 @@ class GetnetService
             '/Ç/'           =>   'C',
             '/ñ/'           =>   'n',
             '/Ñ/'           =>   'N',
-            '/–/'           =>   '_', // UTF-8 hyphen to "normal" hyphen
+            '–'             =>   '-',
+            '/–/'           =>   '-', // UTF-8 hyphen to "normal" hyphen
             '/[’‘‹›‚]/u'    =>   ' ', // Literally a single quote
             '/[“”«»„]/u'    =>   ' ', // Double quote
             '/ /'           =>   ' ', // nonbreaking space (equiv. to 0x160)
