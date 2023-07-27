@@ -57,12 +57,14 @@ class GetnetService
         // Inicia uma transação
         $this->getnet->setSellerId($this->seller_id);
         $this->transaction = new PixTransaction($params["amount"]);
+        
+        $customerId = mb_strtoupper($this->cleanString($params["clientIdentify"]));
 
         // Dados do pedido - Transação
         // $this->transaction->setSellerId($this->seller_id);
         $this->transaction->setCurrency("BRL");
         $this->transaction->setOrderId($params["orderNum"]);
-        $this->transaction->setCustomerId($params["clientIdentify"]);
+        $this->transaction->setCustomerId($customerId);
 
         $response = $this->getnet->pix($this->transaction);
         $statusCode = $response->getStatus();
@@ -86,6 +88,7 @@ class GetnetService
         $cardHolderName = mb_strtoupper($this->cleanString($params["cardHolderName"]));
         $firstName = mb_strtoupper($this->cleanString($params["clientFirstName"]));
         $lastName = mb_strtoupper($this->cleanString($params["clientLastName"]));
+        $customerId = mb_strtoupper($this->cleanString($params["clientIdentify"]));
 
         $transactionData = array(
             "seller_id" => $this->seller_id,
@@ -93,7 +96,7 @@ class GetnetService
             "currency" => "BRL",
             "order" => array("order_id" => $params["orderNum"]),
             "customer" => array(
-                "customer_id" => $params["clientIdentify"],
+                "customer_id" => $customerId,
                 "first_name" => $firstName,
                 "last_name" => $lastName,
                 "email" => $params["clientEmail"],
@@ -193,6 +196,8 @@ class GetnetService
         // Inicia uma transação
         $this->transaction = new Transaction();
 
+        $customerId = mb_strtoupper($this->cleanString($params["clientIdentify"]));
+
         // Dados do pedido - Transação
         $this->transaction->setSellerId($this->seller_id);
         $this->transaction->setCurrency("BRL");
@@ -206,7 +211,7 @@ class GetnetService
         // Gera token do cartão - Obrigatório
         $this->tokenCard = new Token(
             $params["cardNumber"],
-            $params["clientIdentify"],
+            $customerId,
             $this->getnet
         );
 
@@ -244,7 +249,7 @@ class GetnetService
         }
 
         // Dados pessoais do comprador
-        $this->transaction->customer($params["clientIdentify"])
+        $this->transaction->customer($customerId)
             ->setDocumentType(Customer::DOCUMENT_TYPE_CPF)
             ->setEmail($params["clientEmail"])
             ->setFirstName($firstName)
@@ -297,14 +302,14 @@ class GetnetService
 
         $response = json_decode($response);
         if ($status  != "APPROVED") {
-            Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$params["clientIdentify"]} - orderNum: {$params["orderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
+            Log::channel('getnet')->error("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$customerId} - orderNum: {$params["orderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
             Log::channel('getnet')->error("response: " . print_r($response, true));
 
             $response = [
                 "status_code" => $response->status_code, "response" => $response
             ];
         } else {
-            Log::channel('getnet')->info("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$params["clientIdentify"]} - orderNum: {$params["orderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
+            Log::channel('getnet')->info("PAYMENT => barID: {$params["barId"]} - clientIdentify: {$customerId} - orderNum: {$params["orderNum"]} - Type: {$params["type"]} - Brand: {$params["brand"]} - Amount: {$params["amount"]}");
             Log::channel('getnet')->info("response: " . print_r($response, true));
             $response = [
                 "status_code" => 200, "response" => $response
@@ -320,10 +325,12 @@ class GetnetService
         $this->params = $params;
         Log::channel('getnet')->info("saveCard params: " . print_r($this->params, true));
 
+        $customerId = mb_strtoupper($this->cleanString($params["clientIdentify"]));
+
         // Gera token do cartão - Obrigatório
         $this->tokenCard = new Token(
             $params["cardNumber"],
-            $this->params["clientIdentify"],
+            $customerId,
             $this->getnet
         );
 
@@ -340,7 +347,7 @@ class GetnetService
         $cofre = new Cofre();
         $cofre->setCardInfo($card)
             ->setIdentification($this->params["clientCpfCnpj"])
-            ->setCustomerId($this->params["clientIdentify"]);
+            ->setCustomerId($customerId);
 
         Log::channel('getnet')->info("saveCard cofre: " . print_r($cofre, true));
 
@@ -397,8 +404,9 @@ class GetnetService
 
     public function getCardByCustomerId(string $customer_id = "")
     {
+        $customerId = mb_strtoupper($this->cleanString($customer_id));
         // Processa a Transação
-        $response = $this->getnet->getCofreByCustomerId($customer_id);
+        $response = $this->getnet->getCofreByCustomerId($customerId);
         Log::channel('getnet')->info("getCardByCustomerId response: " . print_r($response, true));
 
         $status = $response->getStatus();
@@ -478,7 +486,7 @@ class GetnetService
             '/Ç/'           =>   'C',
             '/ñ/'           =>   'n',
             '/Ñ/'           =>   'N',
-            '/–/'           =>   '-', // UTF-8 hyphen to "normal" hyphen
+            '/–/'           =>   '_', // UTF-8 hyphen to "normal" hyphen
             '/[’‘‹›‚]/u'    =>   ' ', // Literally a single quote
             '/[“”«»„]/u'    =>   ' ', // Double quote
             '/ /'           =>   ' ', // nonbreaking space (equiv. to 0x160)
