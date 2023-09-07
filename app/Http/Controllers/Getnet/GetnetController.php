@@ -63,7 +63,7 @@ class GetnetController extends Controller
     {
         $response = $this->genetService->paymentPix($request->all());
 
-        if ($response["status_code"] >= 300) {
+        if ($response["status_code"] != "WAITING") {
             $message = "Pagamento não processado.";
 
             if ($response["status_code"] >= 500) {
@@ -90,7 +90,7 @@ class GetnetController extends Controller
 
         if ($validator->errors()->count() > 0) {
             Log::channel('getnet')->error("processCredit ValidateRequest: " . print_r($validator->errors(), true));
-            
+
             return response()->json([
                 "success" => false,
                 "message" => "Campo(s) não validado(s)",
@@ -126,7 +126,7 @@ class GetnetController extends Controller
             "data" => $response["response"]
         ], $response["status_code"]);
     }
-    
+
     public function processPayment(Request $request)
     {
         $validator = $this->validateRequest($request);
