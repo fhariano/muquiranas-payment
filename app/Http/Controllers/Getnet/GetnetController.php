@@ -80,8 +80,8 @@ class GetnetController extends Controller
         return response()->json([
             "success" => true,
             "message" => "Pagamento Pix Processado.",
-            "data" => print_r($response["response"], true)
-        ], 200);
+            "data" => $response["response"]
+        ], $response["status_code"]);
     }
 
     public function processCredit(Request $request)

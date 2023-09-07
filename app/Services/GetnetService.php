@@ -68,6 +68,7 @@ class GetnetService
         $statusCode = $response->getStatus();
 
         Log::channel('getnet')->info("pix status code: " . $statusCode);
+        Log::channel('getnet')->info("pix qrCode: " . print_r($response->getQrCode(), true));
         $response = $response->getResponseJSON();
         Log::channel('getnet')->info("pix response: " . print_r($response, true));
 
