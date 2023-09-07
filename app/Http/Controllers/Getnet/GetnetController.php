@@ -74,13 +74,14 @@ class GetnetController extends Controller
                 "success" => false,
                 "message" => $message,
                 "data" => []
-            ], $response["status_code"]);
+            ], 500);
         }
 
         return response()->json([
             "success" => true,
             "message" => "Pagamento Pix Processado.",
-            "data" => $response["response"]
+            "data" => $response["response"],
+            "image" => $response["image"]
         ], 200);
     }
 
