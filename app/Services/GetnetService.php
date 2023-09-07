@@ -68,13 +68,15 @@ class GetnetService
         $statusCode = $response->getStatus();
 
         Log::channel('getnet')->info("pix status code: " . $statusCode);
-        Log::channel('getnet')->info("pix qrCode: " . print_r($response->getQrCode(), true));
+        $qrCodeText = $response->getQrCode();
         $response = $response->getResponseJSON();
         Log::channel('getnet')->info("pix response: " . print_r($response, true));
 
         $response = json_decode($response);
         $response = [
-            "status_code" => $statusCode, "response" => $response
+            "status_code" => $statusCode, 
+            "response" => $response, 
+            // "image" => base64_encode(QrCode::format('png')->size(100)->generate('Make me into an QrCode!')),
         ];
 
         return $response;

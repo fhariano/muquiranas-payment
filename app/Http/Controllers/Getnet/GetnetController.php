@@ -81,7 +81,7 @@ class GetnetController extends Controller
             "success" => true,
             "message" => "Pagamento Pix Processado.",
             "data" => $response["response"]
-        ], $response["status_code"]);
+        ], 200);
     }
 
     public function processCredit(Request $request)
