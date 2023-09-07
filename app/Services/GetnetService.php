@@ -79,7 +79,7 @@ class GetnetService
         $response = [
             "status_code" => $statusCode,
             "response" => $response,
-            "image" => base64_encode(QrCode::format('png')->size(100)->generate('Make me into an QrCode!')),
+            "image" => base64_encode(QrCode::format('png')->size(300)->generate($qrCodeText)),
         ];
 
         return $response;
