@@ -75,13 +75,13 @@ class GetnetService
         $response = [
             "status_code" => $statusCode, "response" => $response
         ];
-        
+
         return $response;
     }
 
     public function processCredit(array $params = [])
     {
-        
+
         Log::channel('getnet')->info("processCredit params: " . print_r($params, true));
         $cardHolderName = mb_strtoupper($this->cleanString($params["cardHolderName"]));
         $firstName = mb_strtoupper($this->cleanString($params["clientFirstName"]));
@@ -343,10 +343,10 @@ class GetnetService
             ->setCustomerId($this->params["clientIdentify"]);
 
         Log::channel('getnet')->info("saveCard cofre: " . print_r($cofre, true));
-        
+
         // Inicia uma transação
         $this->transaction = new Transaction();
-        
+
         // Processa a Transação
         $this->transaction->setCofre($cofre);
         Log::channel('getnet')->info("saveCard transaction: " . print_r($this->transaction->getCofre()->toJSON(), true));
