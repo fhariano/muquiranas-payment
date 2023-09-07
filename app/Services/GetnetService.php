@@ -15,6 +15,7 @@ use Getnet\API\Token;
 use Getnet\API\Transaction;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class GetnetService
 {
@@ -72,11 +73,13 @@ class GetnetService
         $response = $response->getResponseJSON();
         Log::channel('getnet')->info("pix response: " . print_r($response, true));
 
+
+
         $response = json_decode($response);
         $response = [
-            "status_code" => $statusCode, 
-            "response" => $response, 
-            // "image" => base64_encode(QrCode::format('png')->size(100)->generate('Make me into an QrCode!')),
+            "status_code" => $statusCode,
+            "response" => $response,
+            "image" => base64_encode(QrCode::format('png')->size(100)->generate('Make me into an QrCode!')),
         ];
 
         return $response;
